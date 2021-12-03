@@ -167,3 +167,46 @@ $(document).ready(function(){
 
   });
 
+
+  // dropdown
+
+
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $(".dropdown-menu li").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+$(function () {
+	$('#search').on('input', function () {
+		searchRow();
+	});
+})
+
+function searchRow() {
+	var $rows = $('#table > tbody > tr').not(".header");
+	var val1 = $.trim($('#search').val()).replace(/ +/g, ' ').toLowerCase();
+	var val2 = $.trim($("#deviceSelector").text()).toLowerCase();
+	val2 = (val2 === "devices") ? "" : val2;
+
+	$rows.show().filter(function () {
+		var text1 = $(this).find('td:nth-child(1)').text().replace(/\s+/g, ' ').toLowerCase();
+		var text2 = $(this).find('td:nth-child(2)').text().replace(/\s+/g, ' ').toLowerCase();
+		return !~text1.indexOf(val1) || !~text2.indexOf(val2);
+	}).hide();
+}
+
+function searchTableDevice(device) {
+	var filter, table, tr, td, i;
+
+	$("#deviceSelector").html(device);
+
+	if (device == "all") {
+		$("#deviceSelector").html("Devices");
+	}
+
+	searchRow();
+}
